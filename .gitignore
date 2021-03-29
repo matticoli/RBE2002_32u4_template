@@ -1,4 +1,4 @@
 .pio
 .vscode
-src/*.ino.cpp
+*/src/*.ino.cpp
 
