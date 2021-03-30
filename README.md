@@ -1,4 +1,4 @@
-# Template code for RBE 2000 level classes
+# Template Code for RBE 2000 level classes
 
 # Where is my code?
 
