@@ -6,17 +6,42 @@
  */
 
 #include <Romi32U4.h>
+#include "Timer.h"
+
+const int led = 13;
+typedef enum ledState {
+  ON,
+  OFF
+} LEDState;
+
+LEDState currentState;
 
 void setup()
 {
-  Serial.begin(115200);
-  //while(!Serial) {}  //IF YOU DON'T COMMENT THIS OUT, YOU MUST OPEN THE SERIAL MONITOR TO START
-  Serial.println("Hi");
+  pinMode(led, OUTPUT);
+  currentState = OFF;
 }
 
-float targetLeft = 0;
-
 void loop() 
-{    
-  
+{
+  static Timer tim(500);
+  switch(currentState) {
+    case ON:
+      if (tim.isExpired()) {
+        // Change led on state transition
+        digitalWrite(led, LOW);
+        tim.reset();
+        currentState = OFF;
+      }
+      break;
+    case OFF:
+    default:
+      if (tim.isExpired()) {
+        // Change led on state transition
+        digitalWrite(led, HIGH);
+        tim.reset();
+        currentState = ON;
+      }
+      break;
+  }
 }

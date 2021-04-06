@@ -6,16 +6,16 @@
  **/
 Timer::Timer(unsigned long interval)
 {
-    expiredTime = millis() + interval;
+    reset();
     timeInterval = interval;
 }
 
 /**
- * Reset the timer to that the expired time is the current time + interval
+ * Reset the timer so that the expired time is the current time + interval
  */
 void Timer::reset()
 {
-    expiredTime = millis() + timeInterval;
+    expiredTime = millis();
 }
 
 /**
@@ -34,9 +34,13 @@ void Timer::reset(unsigned long newInterval)
  */
 bool Timer::isExpired()
 {
-    if (millis() > expiredTime)
+    // Check if millis has rolled over
+    if (millis() < expiredTime) {
+        expiredTime = timeInterval - (__LONG_MAX__ - expiredTime);
+    }
+    if (millis() - expiredTime > timeInterval)
     {
-        expiredTime = millis() + timeInterval;
+        reset();
         return true;
     }
     return false;
